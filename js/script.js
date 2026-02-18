@@ -41,7 +41,7 @@ const revealObserver = new IntersectionObserver(entries => {
             entry.target.classList.add('is-visible');
         }
     });
-}, { threshold: 0.2 });
+}, { threshold: 0.15 });
 
 document.querySelectorAll('[data-animate]').forEach(element => {
     revealObserver.observe(element);
