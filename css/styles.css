@@ -106,6 +106,14 @@ ul {
     font-weight: 700;
     font-size: 1.1rem;
     color: var(--primary);
+    max-width: 120px;
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    max-width: 100%;
+    height: auto;
 }
 
 .nav-links {
@@ -804,6 +812,14 @@ textarea:focus {
 }
 
 @media (max-width: 767px) {
+    .navbar {
+        padding: 16px 4%;
+    }
+
+    .logo {
+        max-width: 100px;
+    }
+
     .nav-links {
         position: absolute;
         top: 72px;
