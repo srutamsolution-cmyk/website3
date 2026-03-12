@@ -1,10 +1,25 @@
-const header = document.querySelector('.site-header');
-const navLinks = document.querySelectorAll('.nav-link');
-const menuToggle = document.querySelector('.menu-toggle');
-const navMenu = document.querySelector('.nav-links');
-const sections = document.querySelectorAll('main section');
-const form = document.querySelector('.contact__form');
+/* ═══════════════════════════════════════════
+   LUCIDE ICONS INIT
+═══════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+});
 
+/* ═══════════════════════════════════════════
+   ELEMENT REFS
+═══════════════════════════════════════════ */
+const header     = document.querySelector('.site-header');
+const navLinks   = document.querySelectorAll('.nav-link');
+const menuToggle = document.querySelector('.menu-toggle');
+const navMenu    = document.querySelector('.nav-links');
+const sections   = document.querySelectorAll('main section');
+const form       = document.querySelector('.contact__form');
+
+/* ═══════════════════════════════════════════
+   MOBILE MENU TOGGLE
+═══════════════════════════════════════════ */
 const toggleMenu = () => {
     const isOpen = navMenu.classList.toggle('open');
     menuToggle.setAttribute('aria-expanded', isOpen.toString());
@@ -14,39 +29,44 @@ menuToggle.addEventListener('click', toggleMenu);
 
 navLinks.forEach(link => {
     link.addEventListener('click', event => {
-        event.preventDefault();
-        const targetId = link.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-            targetElement.scrollIntoView({ behavior: 'smooth' });
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+            event.preventDefault();
+            const target = document.querySelector(href);
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
         }
         navMenu.classList.remove('open');
         menuToggle.setAttribute('aria-expanded', 'false');
     });
 });
 
+/* ═══════════════════════════════════════════
+   HEADER SCROLL STATE
+═══════════════════════════════════════════ */
 const handleScroll = () => {
-    if (window.scrollY > 20) {
-        header.classList.add('scrolled');
-    } else {
-        header.classList.remove('scrolled');
-    }
+    header.classList.toggle('scrolled', window.scrollY > 20);
 };
 
-window.addEventListener('scroll', handleScroll);
+window.addEventListener('scroll', handleScroll, { passive: true });
+handleScroll();
 
+/* ═══════════════════════════════════════════
+   SCROLL REVEAL (Intersection Observer)
+═══════════════════════════════════════════ */
 const revealObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
         }
     });
-}, { threshold: 0.15 });
+}, { threshold: 0.12 });
 
-document.querySelectorAll('[data-animate]').forEach(element => {
-    revealObserver.observe(element);
-});
+document.querySelectorAll('[data-animate]').forEach(el => revealObserver.observe(el));
 
+/* ═══════════════════════════════════════════
+   ACTIVE NAV LINK (Intersection Observer)
+═══════════════════════════════════════════ */
 const sectionObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -59,122 +79,144 @@ const sectionObserver = new IntersectionObserver(entries => {
 }, { rootMargin: '-40% 0px -55% 0px' });
 
 sections.forEach(section => {
-    if (section.id) {
-        sectionObserver.observe(section);
-    }
+    if (section.id) sectionObserver.observe(section);
 });
 
+/* ═══════════════════════════════════════════
+   FAQ ACCORDION
+═══════════════════════════════════════════ */
+document.querySelectorAll('.faq__question').forEach(button => {
+    button.addEventListener('click', () => {
+        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+        const answerId   = button.getAttribute('aria-controls');
+        const answer     = document.getElementById(answerId);
+
+        // Close all other items
+        document.querySelectorAll('.faq__question').forEach(btn => {
+            if (btn !== button) {
+                btn.setAttribute('aria-expanded', 'false');
+                const otherAnswer = document.getElementById(btn.getAttribute('aria-controls'));
+                if (otherAnswer) otherAnswer.classList.remove('open');
+            }
+        });
+
+        // Toggle current
+        button.setAttribute('aria-expanded', (!isExpanded).toString());
+        if (answer) answer.classList.toggle('open', !isExpanded);
+    });
+});
+
+/* ═══════════════════════════════════════════
+   CONTACT FORM VALIDATION
+═══════════════════════════════════════════ */
 const setError = (field, message) => {
     const error = field.parentElement.querySelector('.error-message');
     field.setAttribute('aria-invalid', 'true');
-    error.textContent = message;
+    if (error) error.textContent = message;
 };
 
 const clearError = field => {
     const error = field.parentElement.querySelector('.error-message');
     field.removeAttribute('aria-invalid');
-    error.textContent = '';
+    if (error) error.textContent = '';
 };
 
 const validateEmail = value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
-form.addEventListener('submit', async event => {
-    event.preventDefault();
-    const status = form.querySelector('.form-status');
-    const submitButton = form.querySelector('button[type="submit"]');
-    let valid = true;
+if (form) {
+    form.addEventListener('submit', async event => {
+        event.preventDefault();
+        const status       = form.querySelector('.form-status');
+        const submitButton = form.querySelector('button[type="submit"]');
+        const nameField    = form.querySelector('#name');
+        const emailField   = form.querySelector('#email');
+        const messageField = form.querySelector('#message');
+        let valid = true;
 
-    const nameField = form.querySelector('#name');
-    const emailField = form.querySelector('#email');
-    const messageField = form.querySelector('#message');
+        clearError(nameField);
+        clearError(emailField);
+        clearError(messageField);
 
-    // Clear previous errors before re-validating
-    clearError(nameField);
-    clearError(emailField);
-    clearError(messageField);
-
-    if (!nameField.value.trim()) {
-        setError(nameField, 'Please enter your name.');
-        valid = false;
-    }
-
-    if (!emailField.value.trim() || !validateEmail(emailField.value.trim())) {
-        setError(emailField, 'Please enter a valid email.');
-        valid = false;
-    }
-
-    if (!messageField.value.trim()) {
-        setError(messageField, 'Please share a short message.');
-        valid = false;
-    }
-
-    if (valid) {
-        submitButton.disabled = true;
-        submitButton.textContent = 'Sending...';
-        status.textContent = '';
-
-        const formData = {
-            name: nameField.value.trim(),
-            email: emailField.value.trim(),
-            message: messageField.value.trim(),
-        };
-
-        try {
-            // NOTE: Replace 'https://api.example.com/contact' with your actual API endpoint.
-            const response = await fetch('https://api.example.com/contact', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
-            });
-
-            if (response.ok) {
-                status.textContent = 'Thank you! Your message has been sent.';
-                form.reset();
-            } else {
-                status.textContent = 'Sorry, there was an error sending your message. Please try again later.';
-            }
-        } catch (error) {
-            console.error('Form submission error:', error);
-            status.textContent = 'A network error occurred. Please check your connection and try again.';
-        } finally {
-            submitButton.disabled = false;
-            submitButton.textContent = 'Send Message';
+        if (!nameField.value.trim()) {
+            setError(nameField, 'Please enter your name.');
+            valid = false;
         }
-    } else {
-        status.textContent = 'Please fix the highlighted fields.';
-    }
-});
 
-// Set initial header state on load
-handleScroll();
+        if (!emailField.value.trim() || !validateEmail(emailField.value.trim())) {
+            setError(emailField, 'Please enter a valid email address.');
+            valid = false;
+        }
 
-// Dynamically set the copyright year
-const yearSpan = document.getElementById('copyright-year');
-if (yearSpan) {
-    yearSpan.textContent = new Date().getFullYear();
+        if (!messageField.value.trim()) {
+            setError(messageField, 'Please share a short message.');
+            valid = false;
+        }
+
+        if (valid) {
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+            status.textContent = '';
+
+            const formData = {
+                name:    nameField.value.trim(),
+                email:   emailField.value.trim(),
+                message: messageField.value.trim(),
+            };
+
+            try {
+                // NOTE: Replace with your actual API endpoint.
+                const response = await fetch('https://api.example.com/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData),
+                });
+
+                if (response.ok) {
+                    status.textContent = 'Thank you! Your message has been sent.';
+                    form.reset();
+                } else {
+                    status.textContent = 'Sorry, there was an error. Please try again later.';
+                }
+            } catch (error) {
+                console.error('Form submission error:', error);
+                status.textContent = 'A network error occurred. Please check your connection.';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Send Message';
+            }
+        } else {
+            if (status) status.textContent = 'Please fix the highlighted fields.';
+        }
+    });
 }
 
-// Add 3D Tilt Effect to Cards
-const tiltCards = document.querySelectorAll('.service-card, .industry-card, .testimonial-card');
+/* ═══════════════════════════════════════════
+   COPYRIGHT YEAR
+═══════════════════════════════════════════ */
+const yearSpan = document.getElementById('copyright-year');
+if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+
+/* ═══════════════════════════════════════════
+   3D TILT EFFECT — Cards
+═══════════════════════════════════════════ */
+const tiltCards = document.querySelectorAll('.service-card, .industry-card, .case-card');
 
 tiltCards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+    card.addEventListener('mousemove', e => {
+        const rect    = card.getBoundingClientRect();
+        const x       = e.clientX - rect.left;
+        const y       = e.clientY - rect.top;
+        const cx      = rect.width  / 2;
+        const cy      = rect.height / 2;
+        const rotateX = ((y - cy) / cy) * -7;
+        const rotateY = ((x - cx) / cx) *  7;
 
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        const rotateX = ((y - centerY) / centerY) * -10;
-        const rotateY = ((x - centerX) / centerX) * 10;
-
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+        card.style.transform  = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
         card.style.transition = 'transform 0.1s ease';
     });
 
     card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+        card.style.transform  = 'perspective(900px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
         card.style.transition = 'transform 0.5s ease';
     });
 });
