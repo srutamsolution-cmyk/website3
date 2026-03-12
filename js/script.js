@@ -191,6 +191,150 @@ if (form) {
 }
 
 /* ═══════════════════════════════════════════
+   MODAL SYSTEM
+═══════════════════════════════════════════ */
+const modalVideo   = document.getElementById('modal-video');
+const modalContact = document.getElementById('modal-contact');
+const demoIframe   = document.getElementById('demo-iframe');
+
+/**
+ * Open a modal by element reference.
+ * Removes [hidden], then on next frame removes opacity-0 so CSS transition fires.
+ */
+function openModal(modal) {
+    modal.removeAttribute('hidden');
+    document.body.classList.add('modal-open');
+    // focus the panel for accessibility
+    const panel = modal.querySelector('.modal__panel');
+    requestAnimationFrame(() => panel && panel.focus());
+}
+
+/**
+ * Close a modal. Re-adds [hidden] after the CSS transition ends.
+ */
+function closeModal(modal) {
+    modal.setAttribute('hidden', '');
+    document.body.classList.remove('modal-open');
+
+    // Stop video iframe when closing
+    if (modal === modalVideo && demoIframe) {
+        demoIframe.src = '';
+    }
+}
+
+// Close via backdrop click or any [data-modal-close] button
+document.querySelectorAll('[data-modal-close]').forEach(el => {
+    el.addEventListener('click', () => {
+        const modal = el.closest('.modal');
+        if (modal) closeModal(modal);
+    });
+});
+
+// Close on Escape key
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        [modalVideo, modalContact].forEach(m => {
+            if (m && !m.hasAttribute('hidden')) closeModal(m);
+        });
+    }
+});
+
+// ── Trigger: Demo Reel play button (section play button + hero CTA) ──
+const demoPlayBtn = document.querySelector('.demo-reel__play');
+if (demoPlayBtn) {
+    demoPlayBtn.addEventListener('click', () => {
+        // Load iframe src only when opened (lazy load)
+        if (demoIframe && !demoIframe.src) {
+            demoIframe.src = demoIframe.dataset.src;
+        }
+        openModal(modalVideo);
+    });
+}
+
+// Hero "View Demo Reel" button → open video modal directly
+const heroDemoBtn = document.querySelector('.hero__actions .btn-primary');
+if (heroDemoBtn && heroDemoBtn.getAttribute('href') === '#work') {
+    heroDemoBtn.addEventListener('click', e => {
+        e.preventDefault();
+        if (demoIframe && !demoIframe.src) {
+            demoIframe.src = demoIframe.dataset.src;
+        }
+        openModal(modalVideo);
+    });
+}
+
+// ── Trigger: Nav "Contact Us" CTA pill ──
+const navContactBtn = document.querySelector('.nav-link--cta');
+if (navContactBtn) {
+    navContactBtn.addEventListener('click', e => {
+        e.preventDefault();
+        navMenu.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        openModal(modalContact);
+    });
+}
+
+// ── Modal contact form validation ──
+const modalForm = document.getElementById('modal-contact-form');
+if (modalForm) {
+    modalForm.addEventListener('submit', async e => {
+        e.preventDefault();
+        const status       = modalForm.querySelector('.form-status');
+        const submitBtn    = modalForm.querySelector('.modal__submit');
+        const nameField    = modalForm.querySelector('#modal-name');
+        const emailField   = modalForm.querySelector('#modal-email');
+        const messageField = modalForm.querySelector('#modal-message');
+        let valid = true;
+
+        [nameField, emailField, messageField].forEach(f => clearError(f));
+
+        if (!nameField.value.trim()) {
+            setError(nameField, 'Please enter your name.');
+            valid = false;
+        }
+        if (!emailField.value.trim() || !validateEmail(emailField.value.trim())) {
+            setError(emailField, 'Please enter a valid email address.');
+            valid = false;
+        }
+        if (!messageField.value.trim()) {
+            setError(messageField, 'Please share a short message.');
+            valid = false;
+        }
+
+        if (valid) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            status.textContent = '';
+
+            try {
+                const response = await fetch('https://api.example.com/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name:    nameField.value.trim(),
+                        email:   emailField.value.trim(),
+                        message: messageField.value.trim(),
+                    }),
+                });
+                if (response.ok) {
+                    status.textContent = 'Thank you! We will be in touch shortly.';
+                    modalForm.reset();
+                } else {
+                    status.textContent = 'Something went wrong. Please try again.';
+                }
+            } catch {
+                status.textContent = 'A network error occurred. Please check your connection.';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        } else {
+            if (status) status.textContent = 'Please fix the highlighted fields.';
+        }
+    });
+}
+
+/* ═══════════════════════════════════════════
    COPYRIGHT YEAR
 ═══════════════════════════════════════════ */
 const yearSpan = document.getElementById('copyright-year');
