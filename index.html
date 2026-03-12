@@ -559,6 +559,72 @@
         </div>
     </footer>
 
+    <!-- ═══════════════ MODAL: VIDEO / DEMO REEL ═══════════════ -->
+    <div class="modal" id="modal-video" role="dialog" aria-modal="true" aria-labelledby="modal-video-title" hidden>
+        <div class="modal__backdrop" data-modal-close></div>
+        <div class="modal__panel modal__panel--video">
+            <div class="modal__header">
+                <div>
+                    <p class="modal__eyebrow">Demo Reel</p>
+                    <h2 id="modal-video-title" class="modal__title">Explore Our Work</h2>
+                </div>
+                <button class="modal__close" data-modal-close aria-label="Close video modal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal__video-frame">
+                <!-- Swap src with your actual video embed URL -->
+                <iframe
+                    id="demo-iframe"
+                    src=""
+                    data-src="https://www.youtube.com/embed/?autoplay=1&rel=0"
+                    title="SRUTAM Solution Demo Reel"
+                    allow="autoplay; encrypted-media; fullscreen"
+                    allowfullscreen>
+                </iframe>
+            </div>
+            <p class="modal__video-caption">Our demo reel showcases projects that combine instructional design expertise, multimedia storytelling, and modern learning technology.</p>
+        </div>
+    </div>
+
+    <!-- ═══════════════ MODAL: QUICK CONTACT ═══════════════ -->
+    <div class="modal" id="modal-contact" role="dialog" aria-modal="true" aria-labelledby="modal-contact-title" hidden>
+        <div class="modal__backdrop" data-modal-close></div>
+        <div class="modal__panel modal__panel--contact">
+            <button class="modal__close" data-modal-close aria-label="Close contact modal">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="modal__contact-icon">
+                <i data-lucide="mail"></i>
+            </div>
+            <h2 id="modal-contact-title" class="modal__title">Let's Build Your Next Learning Experience</h2>
+            <p class="modal__subtitle">Tell us about your training goals and we will work with you to design the right learning solution.</p>
+            <form class="modal__form" id="modal-contact-form" novalidate>
+                <div class="form-field">
+                    <label for="modal-name">Name</label>
+                    <input id="modal-name" name="name" type="text" autocomplete="name" placeholder="Your full name" required>
+                    <small class="error-message" aria-live="polite"></small>
+                </div>
+                <div class="form-field">
+                    <label for="modal-email">Email</label>
+                    <input id="modal-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+                    <small class="error-message" aria-live="polite"></small>
+                </div>
+                <div class="form-field">
+                    <label for="modal-message">Message</label>
+                    <textarea id="modal-message" name="message" rows="4" placeholder="Tell us about your training goals..." required></textarea>
+                    <small class="error-message" aria-live="polite"></small>
+                </div>
+                <button class="btn btn-primary modal__submit" type="submit">Send Message</button>
+                <p class="form-status" role="status" aria-live="polite"></p>
+            </form>
+            <div class="modal__contact-alt">
+                <a href="mailto:sonusingh@srutam.in"><i data-lucide="mail"></i> sonusingh@srutam.in</a>
+                <a href="tel:+919341861263"><i data-lucide="phone"></i> +91 9341861263</a>
+            </div>
+        </div>
+    </div>
+
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <script src="js/script.js"></script>
 </body>
