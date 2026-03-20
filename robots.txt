@@ -1,0 +1,17 @@
+# robots.txt – SRUTAM Solution
+# https://www.srutam.in/
+
+User-agent: *
+Allow: /
+
+# Block access to raw assets that don't need indexing
+Disallow: /assets/*.mp4
+Disallow: /js/
+Disallow: /css/
+
+# Allow Googlebot to crawl images
+User-agent: Googlebot-Image
+Allow: /assets/
+
+# Sitemap location
+Sitemap: https://www.srutam.in/sitemap.xml
