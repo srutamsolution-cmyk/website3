@@ -158,7 +158,7 @@ if (form) {
             status.textContent = '';
 
             try {
-                const response = await fetch('https://formspree.io/f/xkgjpwqv', {
+                const response = await fetch('https://formspree.io/f/xdawjoqo', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                     body: JSON.stringify({
@@ -301,7 +301,7 @@ if (modalForm) {
             status.textContent = '';
 
             try {
-                const response = await fetch('https://formspree.io/f/xkgjpwqv', {
+                const response = await fetch('https://formspree.io/f/xdawjoqo', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                     body: JSON.stringify({
