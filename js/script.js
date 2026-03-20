@@ -157,29 +157,29 @@ if (form) {
             submitButton.textContent = 'Sending...';
             status.textContent = '';
 
-            const formData = {
-                name:    nameField.value.trim(),
-                email:   emailField.value.trim(),
-                message: messageField.value.trim(),
-            };
-
             try {
-                // NOTE: Replace with your actual API endpoint.
-                const response = await fetch('https://api.example.com/contact', {
+                const response = await fetch('https://formspree.io/f/xkgjpwqv', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData),
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        name:    nameField.value.trim(),
+                        email:   emailField.value.trim(),
+                        message: messageField.value.trim(),
+                    }),
                 });
 
                 if (response.ok) {
-                    status.textContent = 'Thank you! Your message has been sent.';
+                    status.textContent = '✓ Message sent! We\'ll get back to you soon.';
+                    status.style.color = '#16a34a';
                     form.reset();
                 } else {
-                    status.textContent = 'Sorry, there was an error. Please try again later.';
+                    const data = await response.json();
+                    status.textContent = data?.errors?.[0]?.message || 'Something went wrong. Please try again.';
+                    status.style.color = '#dc2626';
                 }
             } catch (error) {
-                console.error('Form submission error:', error);
-                status.textContent = 'A network error occurred. Please check your connection.';
+                status.textContent = 'Network error. Please check your connection and try again.';
+                status.style.color = '#dc2626';
             } finally {
                 submitButton.disabled = false;
                 submitButton.textContent = 'Send Message';
@@ -195,31 +195,20 @@ if (form) {
 ═══════════════════════════════════════════ */
 const modalVideo   = document.getElementById('modal-video');
 const modalContact = document.getElementById('modal-contact');
-const demoIframe   = document.getElementById('demo-iframe');
 
-/**
- * Open a modal by element reference.
- * Removes [hidden], then on next frame removes opacity-0 so CSS transition fires.
- */
 function openModal(modal) {
     modal.removeAttribute('hidden');
     document.body.classList.add('modal-open');
-    // focus the panel for accessibility
     const panel = modal.querySelector('.modal__panel');
     requestAnimationFrame(() => panel && panel.focus());
 }
 
-/**
- * Close a modal. Re-adds [hidden] after the CSS transition ends.
- */
 function closeModal(modal) {
     modal.setAttribute('hidden', '');
     document.body.classList.remove('modal-open');
-
-    // Stop video iframe when closing
-    if (modal === modalVideo && demoIframe) {
-        demoIframe.src = '';
-    }
+    // Pause any video inside the modal
+    const vid = modal.querySelector('video');
+    if (vid) { vid.pause(); vid.currentTime = 0; }
 }
 
 // Close via backdrop click or any [data-modal-close] button
@@ -239,26 +228,31 @@ document.addEventListener('keydown', e => {
     }
 });
 
-// ── Trigger: Demo Reel play button (section play button + hero CTA) ──
-const demoPlayBtn = document.querySelector('.demo-reel__play');
-if (demoPlayBtn) {
+// ── Trigger: Demo Reel play button → play video inline in section ──
+const demoPlayBtn  = document.querySelector('.demo-reel__play');
+const demoVideo    = document.getElementById('demo-video');
+const demoOverlay  = document.getElementById('demo-overlay');
+
+if (demoPlayBtn && demoVideo) {
     demoPlayBtn.addEventListener('click', () => {
-        // Load iframe src only when opened (lazy load)
-        if (demoIframe && !demoIframe.src) {
-            demoIframe.src = demoIframe.dataset.src;
-        }
-        openModal(modalVideo);
+        demoOverlay.classList.add('hidden');
+        demoVideo.setAttribute('controls', '');
+        demoVideo.play().catch(() => {});
+    });
+
+    // Show overlay again when video ends
+    demoVideo.addEventListener('ended', () => {
+        demoVideo.removeAttribute('controls');
+        demoVideo.currentTime = 0;
+        demoOverlay.classList.remove('hidden');
     });
 }
 
-// Hero "View Demo Reel" button → open video modal directly
+// Hero "View Demo Reel" button → open video modal (full-screen experience)
 const heroDemoBtn = document.querySelector('.hero__actions .btn-primary');
 if (heroDemoBtn && heroDemoBtn.getAttribute('href') === '#work') {
     heroDemoBtn.addEventListener('click', e => {
         e.preventDefault();
-        if (demoIframe && !demoIframe.src) {
-            demoIframe.src = demoIframe.dataset.src;
-        }
         openModal(modalVideo);
     });
 }
@@ -307,9 +301,9 @@ if (modalForm) {
             status.textContent = '';
 
             try {
-                const response = await fetch('https://api.example.com/contact', {
+                const response = await fetch('https://formspree.io/f/xkgjpwqv', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                     body: JSON.stringify({
                         name:    nameField.value.trim(),
                         email:   emailField.value.trim(),
@@ -317,13 +311,16 @@ if (modalForm) {
                     }),
                 });
                 if (response.ok) {
-                    status.textContent = 'Thank you! We will be in touch shortly.';
+                    status.textContent = '✓ Message sent! We\'ll be in touch shortly.';
+                    status.style.color = '#16a34a';
                     modalForm.reset();
                 } else {
                     status.textContent = 'Something went wrong. Please try again.';
+                    status.style.color = '#dc2626';
                 }
             } catch {
-                status.textContent = 'A network error occurred. Please check your connection.';
+                status.textContent = 'Network error. Please check your connection.';
+                status.style.color = '#dc2626';
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Send Message';

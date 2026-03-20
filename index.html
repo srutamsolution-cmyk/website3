@@ -14,6 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="preload" href="assets/hero-video.mp4" as="video" type="video/mp4">
 </head>
 <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -72,22 +73,6 @@
         <!-- ═══════════════ ABOUT ═══════════════ -->
         <section class="section about" id="about" aria-labelledby="about-title">
             <div class="container about__grid" data-animate>
-                <div class="about__media" role="img" aria-label="Digital learning environment">
-                    <div class="about__media-inner">
-                        <div class="about__stat-card">
-                            <i data-lucide="users"></i>
-                            <span>Corporate &amp; University Clients</span>
-                        </div>
-                        <div class="about__stat-card">
-                            <i data-lucide="globe"></i>
-                            <span>Global Training Delivery</span>
-                        </div>
-                        <div class="about__stat-card">
-                            <i data-lucide="award"></i>
-                            <span>SCORM Certified Courses</span>
-                        </div>
-                    </div>
-                </div>
                 <div class="about__content">
                     <p class="section__eyebrow">About Us</p>
                     <h2 id="about-title">A Partner for Modern Digital Learning</h2>
@@ -95,6 +80,23 @@
                     <p>Our team of instructional designers, multimedia developers, and eLearning specialists focuses on building learning experiences that combine clarity, engagement, and real-world application.</p>
                     <p>By integrating instructional design best practices, multimedia learning techniques, and modern learning technology, we help organisations deliver training programs that support performance, knowledge retention, and long-term learning growth.</p>
                     <p class="about__tagline">Our goal is simple: create learning experiences that are <strong>practical, scalable, and impactful.</strong></p>
+                    <div class="about__stats">
+                        <div class="about__stat-item">
+                            <span class="about__stat-icon"><i data-lucide="users"></i></span>
+                            <span>Corporate &amp; University Clients</span>
+                        </div>
+                        <div class="about__stat-item">
+                            <span class="about__stat-icon"><i data-lucide="globe"></i></span>
+                            <span>Global Training Delivery</span>
+                        </div>
+                        <div class="about__stat-item">
+                            <span class="about__stat-icon"><i data-lucide="award"></i></span>
+                            <span>SCORM Certified Courses</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about__media">
+                    <img src="assets/IMG_01.png" alt="A Partner for Modern Digital Learning" loading="lazy" decoding="async">
                 </div>
             </div>
         </section>
@@ -102,10 +104,23 @@
         <!-- ═══════════════ SERVICES ═══════════════ -->
         <section class="section services" id="services" aria-labelledby="services-title">
             <div class="container">
-                <div class="section__header" data-animate>
-                    <p class="section__eyebrow">Our Services</p>
-                    <h2 id="services-title">Custom eLearning Development</h2>
-                    <p>End-to-end digital learning solutions tailored to your organisation's training needs and business goals.</p>
+
+                <div class="services__hero-layout" data-animate>
+                    <div class="services__hero-img">
+                        <img src="assets/IMG_02.png" alt="Custom eLearning Development" loading="lazy" decoding="async">
+                    </div>
+                    <div class="services__hero-content">
+                        <p class="section__eyebrow">Our Services</p>
+                        <h2 id="services-title">Custom eLearning Development</h2>
+                        <p>End-to-end digital learning solutions tailored to your organisation's training needs and business goals — from consultation to deployment.</p>
+                        <ul class="service-highlights">
+                            <li><i data-lucide="check-circle"></i> Custom interactive course development</li>
+                            <li><i data-lucide="check-circle"></i> Instructional design &amp; storyboarding</li>
+                            <li><i data-lucide="check-circle"></i> SCORM &amp; LMS-ready packaging</li>
+                            <li><i data-lucide="check-circle"></i> Corporate &amp; academic video production</li>
+                            <li><i data-lucide="check-circle"></i> Multilingual localization</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="services__grid" data-animate>
@@ -160,25 +175,44 @@
                         <h3>Multilingual eLearning Localization</h3>
                         <p>We help organisations and institutions deliver training globally through multilingual eLearning localization services. Courses can be adapted for different languages, cultures, and audiences through translation, voice-over, and cultural adaptation.</p>
                     </article>
+
+                    <article class="service-card">
+                        <span class="service-card__icon" aria-hidden="true">
+                            <i data-lucide="layers"></i>
+                        </span>
+                        <h3>Blended Learning Solutions</h3>
+                        <p>We design blended learning programs that combine online digital learning with instructor-led training, creating flexible experiences that suit diverse learner needs and schedules.</p>
+                        <ul class="service-list">
+                            <li><i data-lucide="check" class="list-icon"></i>Hybrid course design</li>
+                            <li><i data-lucide="check" class="list-icon"></i>Flipped classroom development</li>
+                            <li><i data-lucide="check" class="list-icon"></i>Self-paced and live module delivery</li>
+                            <li><i data-lucide="check" class="list-icon"></i>Learner progress tracking</li>
+                        </ul>
+                    </article>
                 </div>
 
                 <!-- Higher Education Featured Callout -->
-                <div class="higher-ed-callout" data-animate>
-                    <div class="higher-ed-callout__icon">
-                        <i data-lucide="graduation-cap"></i>
+                <div class="higher-ed-split" data-animate>
+                    <div class="higher-ed-callout">
+                        <div class="higher-ed-callout__icon">
+                            <i data-lucide="graduation-cap"></i>
+                        </div>
+                        <div class="higher-ed-callout__content">
+                            <span class="section__eyebrow">Higher Education Course Development</span>
+                            <h3>Digital Learning for Universities and Academic Institutions</h3>
+                            <p>We support universities, colleges, and EdTech organisations in developing online courses, digital learning programs, and curriculum-aligned academic content. We help institutions convert traditional classroom content into interactive online courses that support remote learning, blended learning, and distance education.</p>
+                            <ul class="higher-ed-list">
+                                <li><i data-lucide="check-circle" class="list-icon"></i>Online course development for universities</li>
+                                <li><i data-lucide="check-circle" class="list-icon"></i>Curriculum-based academic course design</li>
+                                <li><i data-lucide="check-circle" class="list-icon"></i>Conversion of classroom courses into digital learning</li>
+                                <li><i data-lucide="check-circle" class="list-icon"></i>Multimedia academic learning modules</li>
+                                <li><i data-lucide="check-circle" class="list-icon"></i>Interactive assessments and learning activities</li>
+                                <li><i data-lucide="check-circle" class="list-icon"></i>LMS-ready academic course packaging</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="higher-ed-callout__content">
-                        <span class="section__eyebrow">Higher Education Course Development</span>
-                        <h3>Digital Learning for Universities and Academic Institutions</h3>
-                        <p>We support universities, colleges, and EdTech organisations in developing online courses, digital learning programs, and curriculum-aligned academic content. We help institutions convert traditional classroom content into interactive online courses that support remote learning, blended learning, and distance education.</p>
-                        <ul class="higher-ed-list">
-                            <li><i data-lucide="check-circle" class="list-icon"></i>Online course development for universities</li>
-                            <li><i data-lucide="check-circle" class="list-icon"></i>Curriculum-based academic course design</li>
-                            <li><i data-lucide="check-circle" class="list-icon"></i>Conversion of classroom courses into digital learning</li>
-                            <li><i data-lucide="check-circle" class="list-icon"></i>Multimedia academic learning modules</li>
-                            <li><i data-lucide="check-circle" class="list-icon"></i>Interactive assessments and learning activities</li>
-                            <li><i data-lucide="check-circle" class="list-icon"></i>LMS-ready academic course packaging</li>
-                        </ul>
+                    <div class="higher-ed-callout__img">
+                        <img src="assets/IMG_03.png" alt="Higher Education Course Development" loading="lazy" decoding="async">
                     </div>
                 </div>
             </div>
@@ -186,13 +220,18 @@
 
         <!-- ═══════════════ INDUSTRIES ═══════════════ -->
         <section class="section industries" id="industries" aria-labelledby="industries-title">
-            <div class="container" data-animate>
-                <div class="section__header">
-                    <p class="section__eyebrow">Industries We Serve</p>
-                    <h2 id="industries-title">Corporate and Sector-Focused Learning Solutions</h2>
-                    <p>We develop industry-specific eLearning training programs designed to support regulatory requirements, workforce training, and professional development.</p>
+            <div class="container">
+                <div class="section-split" data-animate>
+                    <div class="section-split__visual">
+                        <img src="assets/IMG_04.png" alt="Corporate and Sector-Focused Learning Solutions" loading="lazy" decoding="async">
+                    </div>
+                    <div class="section-split__content">
+                        <p class="section__eyebrow">Industries We Serve</p>
+                        <h2 id="industries-title">Corporate and Sector-Focused Learning Solutions</h2>
+                        <p>We develop industry-specific eLearning training programs designed to support regulatory requirements, workforce training, and professional development across every major sector.</p>
+                    </div>
                 </div>
-                <div class="industries-grid">
+                <div class="industries-grid" data-animate>
                     <div class="industry-card">
                         <span class="industry-icon"><i data-lucide="activity"></i></span>
                         <h3>Healthcare</h3>
@@ -244,13 +283,18 @@
 
         <!-- ═══════════════ PROCESS ═══════════════ -->
         <section class="section process" id="process" aria-labelledby="process-title">
-            <div class="container" data-animate>
-                <div class="section__header">
-                    <p class="section__eyebrow">Our Development Process</p>
-                    <h2 id="process-title">Structured eLearning Development Lifecycle</h2>
-                    <p>Our development approach ensures clarity, quality, and reliability across every learning project.</p>
+            <div class="container">
+                <div class="section-split" data-animate>
+                    <div class="section-split__visual">
+                        <img src="assets/IMG_05.png" alt="Structured eLearning Development Lifecycle" loading="lazy" decoding="async">
+                    </div>
+                    <div class="section-split__content">
+                        <p class="section__eyebrow">Our Development Process</p>
+                        <h2 id="process-title">Structured eLearning Development Lifecycle</h2>
+                        <p>Our development approach ensures clarity, quality, and reliability across every learning project — from initial consultation through to post-launch support.</p>
+                    </div>
                 </div>
-                <div class="process-steps">
+                <div class="process-steps" data-animate>
                     <div class="process-step">
                         <div class="step-badge">1</div>
                         <div class="step-icon"><i data-lucide="message-square"></i></div>
@@ -295,7 +339,10 @@
                 </div>
 
                 <div class="demo-reel__frame">
-                    <div class="demo-reel__overlay">
+                    <video id="demo-video" class="demo-reel__video" preload="none" playsinline>
+                        <source src="assets/Srutam_AD.mp4" type="video/mp4">
+                    </video>
+                    <div class="demo-reel__overlay" id="demo-overlay">
                         <button class="demo-reel__play" aria-label="Play demo reel">
                             <i data-lucide="play"></i>
                         </button>
@@ -345,12 +392,18 @@
 
         <!-- ═══════════════ CASE STUDIES ═══════════════ -->
         <section class="section case-studies" id="case-studies" aria-labelledby="case-studies-title">
-            <div class="container" data-animate>
-                <div class="section__header">
-                    <p class="section__eyebrow">Case Studies</p>
-                    <h2 id="case-studies-title">Learning Solutions in Action</h2>
+            <div class="container">
+                <div class="section-split" data-animate>
+                    <div class="section-split__visual">
+                        <img src="assets/IMG_06.png" alt="Learning Solutions in Action" loading="lazy" decoding="async">
+                    </div>
+                    <div class="section-split__content">
+                        <p class="section__eyebrow">Case Studies</p>
+                        <h2 id="case-studies-title">Learning Solutions in Action</h2>
+                        <p>Real-world examples of how our custom eLearning solutions have helped organisations and institutions achieve measurable training outcomes.</p>
+                    </div>
                 </div>
-                <div class="case-studies__grid">
+                <div class="case-studies__grid" data-animate>
                     <article class="case-card">
                         <div class="case-card__accent case-card__accent--healthcare"></div>
                         <div class="case-card__body">
@@ -391,12 +444,13 @@
 
         <!-- ═══════════════ FAQ ═══════════════ -->
         <section class="section faq" id="faq" aria-labelledby="faq-title">
-            <div class="container faq__container" data-animate>
-                <div class="section__header">
-                    <p class="section__eyebrow">FAQ</p>
-                    <h2 id="faq-title">Frequently Asked Questions</h2>
-                </div>
-                <div class="faq__list" role="list">
+            <div class="container faq__layout" data-animate>
+                <div class="faq__main">
+                    <div class="faq__header">
+                        <p class="section__eyebrow">FAQ</p>
+                        <h2 id="faq-title">Frequently Asked Questions</h2>
+                    </div>
+                    <div class="faq__list" role="list">
                     <div class="faq__item" role="listitem">
                         <button class="faq__question" aria-expanded="false" aria-controls="faq-1">
                             <span>What is custom eLearning development?</span>
@@ -434,6 +488,10 @@
                         </div>
                     </div>
                 </div>
+                </div>
+                <div class="faq__visual">
+                    <img src="assets/IMG_07.png" alt="Frequently Asked Questions" loading="lazy" decoding="async">
+                </div>
             </div>
         </section>
 
@@ -449,11 +507,15 @@
 
         <!-- ═══════════════ CONTACT ═══════════════ -->
         <section class="section contact" id="contact" aria-labelledby="contact-title">
-            <div class="container contact__grid" data-animate>
-                <div class="contact__content">
-                    <p class="section__eyebrow">Contact</p>
-                    <h2 id="contact-title">Let's Build Your Next Learning Experience</h2>
-                    <p>Tell us about your training goals and we will work with you to design the right learning solution.</p>
+            <div class="container" data-animate>
+
+                <!-- TOP: heading + contact details (full width) -->
+                <div class="contact__header">
+                    <div class="contact__header__text">
+                        <p class="section__eyebrow">Contact</p>
+                        <h2 id="contact-title">Let's Build Your Next Learning Experience</h2>
+                        <p>Tell us about your training goals and we will work with you to design the right learning solution.</p>
+                    </div>
                     <div class="contact__details">
                         <div class="contact__detail-item">
                             <span class="contact__detail-icon"><i data-lucide="mail"></i></span>
@@ -479,25 +541,33 @@
                     </div>
                 </div>
 
-                <form class="contact__form" novalidate>
-                    <div class="form-field">
-                        <label for="name">Name</label>
-                        <input id="name" name="name" type="text" autocomplete="name" placeholder="Your full name" required>
-                        <small class="error-message" aria-live="polite"></small>
+                <!-- BOTTOM: form LEFT | image RIGHT -->
+                <div class="contact__grid">
+                    <form class="contact__form" novalidate>
+                        <div class="form-field">
+                            <label for="name">Name</label>
+                            <input id="name" name="name" type="text" autocomplete="name" placeholder="Your full name" required>
+                            <small class="error-message" aria-live="polite"></small>
+                        </div>
+                        <div class="form-field">
+                            <label for="email">Email</label>
+                            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+                            <small class="error-message" aria-live="polite"></small>
+                        </div>
+                        <div class="form-field">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="6" placeholder="Tell us about your training goals..." required></textarea>
+                            <small class="error-message" aria-live="polite"></small>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Send Message</button>
+                        <p class="form-status" role="status" aria-live="polite"></p>
+                    </form>
+
+                    <div class="contact__visual">
+                        <img src="assets/IMG_08.png" alt="Contact SRUTAM Solution" loading="lazy" decoding="async">
                     </div>
-                    <div class="form-field">
-                        <label for="email">Email</label>
-                        <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
-                        <small class="error-message" aria-live="polite"></small>
-                    </div>
-                    <div class="form-field">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" rows="5" placeholder="Tell us about your training goals..." required></textarea>
-                        <small class="error-message" aria-live="polite"></small>
-                    </div>
-                    <button class="btn btn-primary" type="submit">Send Message</button>
-                    <p class="form-status" role="status" aria-live="polite"></p>
-                </form>
+                </div>
+
             </div>
         </section>
     </main>
@@ -582,15 +652,13 @@
                 </button>
             </div>
             <div class="modal__video-frame">
-                <!-- Swap src with your actual video embed URL -->
-                <iframe
-                    id="demo-iframe"
-                    src=""
-                    data-src="https://www.youtube.com/embed/?autoplay=1&rel=0"
-                    title="SRUTAM Solution Demo Reel"
-                    allow="autoplay; encrypted-media; fullscreen"
-                    allowfullscreen>
-                </iframe>
+                <video
+                    id="demo-video-modal"
+                    preload="none"
+                    controls
+                    playsinline>
+                    <source src="assets/Srutam_AD.mp4" type="video/mp4">
+                </video>
             </div>
             <p class="modal__video-caption">Our demo reel showcases projects that combine instructional design expertise, multimedia storytelling, and modern learning technology.</p>
         </div>
